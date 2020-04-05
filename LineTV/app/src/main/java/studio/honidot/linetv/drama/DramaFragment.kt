@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
+import studio.honidot.linetv.data.Drama
 import studio.honidot.linetv.databinding.FragmentDramaBinding
 import studio.honidot.linetv.extension.getVmFactory
+
 
 class DramaFragment : Fragment() {
 
@@ -28,9 +30,35 @@ class DramaFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.recyclerHome.adapter = DramaAdapter(DramaAdapter.OnClickListener {
+        val dramaAdapter = DramaAdapter(DramaAdapter.OnClickListener {
             viewModel.navigateToDetail(it)
         })
+
+        binding.recyclerHome.adapter = dramaAdapter
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val resultList = mutableListOf<Drama>()
+                viewModel.dramas.value?.let {
+                    if (newText.isNullOrEmpty()) {
+                        dramaAdapter.submitList(it)
+                    } else {
+                        for (drama in it) {
+                            if (drama.name.contains(newText.toString())) {
+                                resultList.add(drama)
+                            }
+                        }
+                        dramaAdapter.submitList(resultList)
+                    }
+                }
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean { // Do your task here
+                return false
+            }
+        })
+
 
         binding.layoutSwipeRefreshHome.setOnRefreshListener {
             viewModel.refresh()

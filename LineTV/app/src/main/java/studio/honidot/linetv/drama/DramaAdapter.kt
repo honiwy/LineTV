@@ -36,11 +36,13 @@ class DramaAdapter(private val onClickListener: OnClickListener) :
 
     companion object DiffCallback : DiffUtil.ItemCallback<Drama>() {
         override fun areItemsTheSame(oldItem: Drama, newItem: Drama): Boolean {
-            return oldItem === newItem
+            return oldItem.dramaId == newItem.dramaId
         }
 
         override fun areContentsTheSame(oldItem: Drama, newItem: Drama): Boolean {
-            return oldItem.dramaId == newItem.dramaId
+            return (oldItem.thumb == newItem.thumb && 
+                    oldItem.createdAt == newItem.createdAt &&
+                    oldItem.rating == newItem.rating)
         }
 
     }

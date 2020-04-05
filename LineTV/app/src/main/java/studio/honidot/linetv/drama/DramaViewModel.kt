@@ -62,7 +62,7 @@ class DramaViewModel(private val lineTVRepository: LineTVRepository) : ViewModel
     }
 
     /**
-     * Call getMarketingHotsResult() on init so we can display status immediately.
+     * Call getDramas() on init so we can display status immediately.
      */
     init {
         Logger.i("------------------------------------")
