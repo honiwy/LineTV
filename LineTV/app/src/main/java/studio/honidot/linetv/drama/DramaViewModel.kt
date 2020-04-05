@@ -17,6 +17,8 @@ import studio.honidot.linetv.utility.Util.getString
 
 class DramaViewModel(private val lineTVRepository: LineTVRepository) : ViewModel() {
 
+   // val dramas: LiveData<List<Drama>> = lineTVRepository.getDramasInLocal()
+
     private val _dramas = MutableLiveData<List<Drama>>()
 
     val dramas: LiveData<List<Drama>>
@@ -79,6 +81,12 @@ class DramaViewModel(private val lineTVRepository: LineTVRepository) : ViewModel
             if (isInitial) _status.value = LoadApiStatus.LOADING
             // It will return Result object after Deferred flow
             val result = lineTVRepository.getDramas()
+
+//            if(result is Result.Success){
+//                    result.data.dramaList?.forEach {
+//                        lineTVRepository.insertDrama(it)
+//                    }
+//            }
 
             _dramas.value = when (result) {
                 is Result.Success -> {

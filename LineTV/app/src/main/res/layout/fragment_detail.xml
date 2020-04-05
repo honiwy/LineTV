@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textSize="16sp"
-            app:certainDecimalPlace="@{viewModel.drama.rating}"
+            android:text="@{String.valueOf(viewModel.drama.rating)}"
             app:layout_constraintBaseline_toBaselineOf="@+id/text_rating_title"
             app:layout_constraintStart_toEndOf="@+id/text_rating_title"
             tools:text="@string/mock_rating" />

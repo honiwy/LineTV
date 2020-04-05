@@ -1,5 +1,6 @@
 package studio.honidot.linetv.data.source
 
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import studio.honidot.linetv.data.*
@@ -17,5 +18,12 @@ class DefaultLineTVRepository(
         return lineTVRemoteDataSource.getDramas()
     }
 
+    override fun getDramasInLocal(): LiveData<List<Drama>> {
+        return lineTVLocalDataSource.getDramasInLocal()
+    }
+
+    override suspend fun insertDrama(drama: Drama) {
+        lineTVLocalDataSource.insertDrama(drama)
+    }
 
 }

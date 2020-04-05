@@ -1,5 +1,6 @@
 package studio.honidot.linetv.data.source.remote
 
+import androidx.lifecycle.LiveData
 import studio.honidot.linetv.R
 import studio.honidot.linetv.data.*
 import studio.honidot.linetv.data.source.LineTVDataSource
@@ -33,5 +34,13 @@ object LineTVRemoteDataSource : LineTVDataSource {
             Logger.w("[${this::class.simpleName}] exception=${e.message}")
             Result.Error(e)
         }
+    }
+
+    override fun getDramasInLocal(): LiveData<List<Drama>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun insertDrama(drama: Drama) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
