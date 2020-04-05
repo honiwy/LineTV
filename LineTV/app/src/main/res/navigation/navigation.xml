@@ -15,4 +15,16 @@
         android:name="studio.honidot.linetv.MainActivity"
         android:label="MainActivity"
         tools:layout="@layout/activity_main"/>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="studio.honidot.linetv.detail.DetailFragment"
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="dramaKey"
+            app:argType="studio.honidot.linetv.data.Drama" />
+    </fragment>
+    <action
+        android:id="@+id/navigate_to_detailFragment"
+        app:destination="@id/detailFragment" />
 </navigation>

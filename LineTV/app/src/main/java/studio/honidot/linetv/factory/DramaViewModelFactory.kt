@@ -2,22 +2,22 @@ package studio.honidot.linetv.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import studio.honidot.linetv.drama.DramaViewModel
+import studio.honidot.linetv.data.Drama
 import studio.honidot.linetv.data.source.LineTVRepository
+import studio.honidot.linetv.detail.DetailViewModel
 
-/**
- * Factory for all ViewModels with repository.
- */
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory constructor(
-    private val lineTVRepository: LineTVRepository
+class DramaViewModelFactory(
+    private val lineTVRepository: LineTVRepository,
+    private val drama: Drama
+
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                isAssignableFrom(DramaViewModel::class.java) ->
-                    DramaViewModel(lineTVRepository)
+                isAssignableFrom(DetailViewModel::class.java) ->
+                    DetailViewModel(lineTVRepository, drama)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

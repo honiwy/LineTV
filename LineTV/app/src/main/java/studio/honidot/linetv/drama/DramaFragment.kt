@@ -11,6 +11,8 @@ import androidx.lifecycle.Observer
 import studio.honidot.linetv.data.Drama
 import studio.honidot.linetv.databinding.FragmentDramaBinding
 import studio.honidot.linetv.extension.getVmFactory
+import androidx.navigation.fragment.findNavController
+import studio.honidot.linetv.NavigationDirections
 
 
 class DramaFragment : Fragment() {
@@ -70,12 +72,12 @@ class DramaFragment : Fragment() {
             }
         })
 
-//        viewModel.navigateToDetail.observe(this, Observer {
-//            it?.let {
-//                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
-//                viewModel.onDetailNavigated()
-//            }
-//        })
+        viewModel.navigateToDetail.observe(this, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
+                viewModel.onDetailNavigated()
+            }
+        })
 
         return binding.root
     }

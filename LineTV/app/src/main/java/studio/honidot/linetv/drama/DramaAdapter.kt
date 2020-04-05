@@ -40,7 +40,7 @@ class DramaAdapter(private val onClickListener: OnClickListener) :
         }
 
         override fun areContentsTheSame(oldItem: Drama, newItem: Drama): Boolean {
-            return (oldItem.thumb == newItem.thumb && 
+            return (oldItem.thumb == newItem.thumb &&
                     oldItem.createdAt == newItem.createdAt &&
                     oldItem.rating == newItem.rating)
         }
