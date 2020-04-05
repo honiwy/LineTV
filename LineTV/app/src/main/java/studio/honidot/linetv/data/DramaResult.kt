@@ -9,3 +9,4 @@ data class DramaResult(
     val error: String? = null,
     @Json(name = "data") val dramaList: List<Drama>? = null
 ) : Parcelable
+

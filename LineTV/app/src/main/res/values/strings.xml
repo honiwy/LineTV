@@ -5,4 +5,8 @@
     <string name="mock_name">俗女養成記</string>
     <string name="mock_rating">4.9</string>
     <string name="mock_created_at">2020.01.01</string>
+
+    <!-- General -->
+    <string name="internet_not_connected">您尚未連接 Internet</string>
+    <string name="you_know_nothing">You know nothing</string>
 </resources>
