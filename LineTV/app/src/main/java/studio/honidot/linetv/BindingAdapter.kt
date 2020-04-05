@@ -1,13 +1,19 @@
 package studio.honidot.linetv
 
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.request.RequestOptions
 import studio.honidot.linetv.data.Drama
 import studio.honidot.linetv.drama.DramaAdapter
 import studio.honidot.linetv.network.LoadApiStatus
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 @BindingAdapter("dramas")
 fun bindRecyclerViewWithDramas(recyclerView: RecyclerView, dramas: List<Drama>?) {
@@ -17,6 +23,41 @@ fun bindRecyclerViewWithDramas(recyclerView: RecyclerView, dramas: List<Drama>?)
                 is DramaAdapter -> submitList(it)
             }
         }
+    }
+}
+
+@BindingAdapter("certainDecimalPlace")
+fun bindFloatNumber(txtView: TextView, number: Float?) {
+    txtView.text = "%.2f".format(number)
+}
+
+@BindingAdapter("shrankCreatedTime")
+fun bindTime(txtView: TextView, originTime: String?) {
+
+    val localDateTime =
+        ZonedDateTime.parse(originTime)
+    val formatter =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    txtView.text = formatter.format(localDateTime)
+
+
+}
+
+/**
+ * Uses the Glide library to load an image by URL into an [ImageView]
+ */
+@BindingAdapter("imageUrl")
+fun bindImage(imgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+        val imgUri = it.toUri().buildUpon().build()
+        GlideApp.with(imgView.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.loading)
+                    .error(R.drawable.loading)
+            )
+            .into(imgView)
     }
 }
 

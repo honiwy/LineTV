@@ -15,11 +15,12 @@
 
         <ImageView
             android:id="@+id/image_drama_thumb"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:imageUrl="@{drama.thumb}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,12 +31,14 @@
             style="@style/DramaContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@{drama.name}"
-            app:layout_constraintBottom_toTopOf="@+id/text_rating"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/image_star"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/image_drama_thumb"
             app:layout_constraintTop_toTopOf="@+id/image_drama_thumb"
             tools:text="@string/mock_name" />
@@ -45,10 +48,12 @@
             style="@style/DramaContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(drama.rating)}"
-            app:layout_constraintBottom_toTopOf="@+id/text_created_at"
-            app:layout_constraintStart_toStartOf="@+id/text_name"
-            app:layout_constraintTop_toBottomOf="@+id/text_name"
+            android:layout_marginStart="8dp"
+            android:textSize="14sp"
+            certainDecimalPlace="@{drama.rating}"
+            app:layout_constraintBottom_toBottomOf="@+id/image_star"
+            app:layout_constraintStart_toEndOf="@+id/image_star"
+            app:layout_constraintTop_toTopOf="@+id/image_star"
             tools:text="@string/mock_rating" />
 
         <TextView
@@ -56,10 +61,30 @@
             style="@style/DramaContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{drama.createdAt}"
+            android:layout_marginStart="8dp"
+            shrankCreatedTime="@{drama.createdAt}"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/image_clock"
+            app:layout_constraintStart_toEndOf="@+id/image_clock"
+            app:layout_constraintTop_toTopOf="@+id/image_clock"
+            tools:text="@string/mock_created_at" />
+
+        <ImageView
+            android:id="@+id/image_star"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/image_clock"
+            app:layout_constraintStart_toStartOf="@+id/text_name"
+            app:layout_constraintTop_toBottomOf="@+id/text_name"
+            app:srcCompat="@drawable/star" />
+
+        <ImageView
+            android:id="@+id/image_clock"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/image_drama_thumb"
             app:layout_constraintStart_toStartOf="@+id/text_name"
-            app:layout_constraintTop_toBottomOf="@+id/text_rating"
-            tools:text="@string/mock_created_at" />
+            app:layout_constraintTop_toBottomOf="@+id/image_star"
+            app:srcCompat="@drawable/clock" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
