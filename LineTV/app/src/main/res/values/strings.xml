@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">LineTV</string>
+
+    <!-- Main Drama Fragment -->
+    <string name="mock_name">俗女養成記</string>
+    <string name="mock_rating">4.9</string>
+    <string name="mock_created_at">2020.01.01</string>
+</resources>
