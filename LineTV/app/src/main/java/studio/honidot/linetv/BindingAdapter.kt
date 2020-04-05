@@ -39,8 +39,11 @@ fun bindTime(txtView: TextView, originTime: String?) {
     val formatter =
         DateTimeFormatter.ofPattern("yyyy-MM-dd")
     txtView.text = formatter.format(localDateTime)
+}
 
-
+@BindingAdapter("addComma")
+fun bindComma(txtView: TextView, number: Long?) {
+    txtView.text = "%,d".format(number)
 }
 
 /**
