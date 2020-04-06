@@ -2,6 +2,7 @@ package studio.honidot.linetv
 
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.view.animation.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -20,6 +21,9 @@ class LogoActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             startLogoAnimation4Particle()
+            Handler().postDelayed({
+                this.finish()
+            }, duration)
         }, await)
     }
 
@@ -63,5 +67,7 @@ class LogoActivity : AppCompatActivity() {
             fillAfter = true
         })
     }
-
+    fun leave(view: View) {
+        finish()
+    }
 }
