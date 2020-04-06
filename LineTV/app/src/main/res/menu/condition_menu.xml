@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/rating_menu"
+        android:title="@string/rating" />
+    <item
+        android:id="@+id/created_at_menu"
+        android:title="@string/created_at" />
+    <item
+        android:id="@+id/total_view_menu"
+        android:title="@string/total_view" />
+</menu>

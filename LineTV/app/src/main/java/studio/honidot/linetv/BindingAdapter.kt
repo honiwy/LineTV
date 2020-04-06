@@ -20,10 +20,20 @@ fun bindRecyclerViewWithDramas(recyclerView: RecyclerView, dramas: List<Drama>?)
     dramas?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is DramaAdapter -> submitList(it)
+                is DramaAdapter -> if (UserManager.userSearch.isNullOrEmpty()) {
+                    submitList(it)
+                }else{
+                    val resultList = mutableListOf<Drama>()
+                    for (drama in it) {
+                        if (drama.name.contains(UserManager.userSearch.toString())) {
+                            resultList.add(drama)
+                        }
+                    }
+                    submitList(resultList)
+                }
+                }
             }
         }
-    }
 }
 
 @BindingAdapter("certainDecimalPlace")

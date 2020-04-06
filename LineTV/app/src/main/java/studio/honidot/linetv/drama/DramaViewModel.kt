@@ -1,6 +1,5 @@
 package studio.honidot.linetv.drama
 
-import android.view.Gravity
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,7 +22,8 @@ class DramaViewModel(private val lineTVRepository: LineTVRepository) : ViewModel
 
     val dramas: LiveData<List<Drama>> = lineTVRepository.getDramasInLocal()
 
-//    private val _dramas = MutableLiveData<List<Drama>>()
+//    private val _dramas = lineTVRepository.getDramasInLocal()
+//
 //
 //    val dramas: LiveData<List<Drama>>
 //        get() = _dramas
@@ -89,9 +89,7 @@ class DramaViewModel(private val lineTVRepository: LineTVRepository) : ViewModel
                     Toast.LENGTH_SHORT
                 ).show()
                 if (isInitial) _status.value = LoadApiStatus.ERROR
-                if (dramas.value.isNullOrEmpty()) {
-                    _error.value = getString(R.string.internet_refresh)
-                }
+
             } else {
 
                 if (isInitial) _status.value = LoadApiStatus.LOADING
@@ -137,4 +135,19 @@ class DramaViewModel(private val lineTVRepository: LineTVRepository) : ViewModel
     fun onDetailNavigated() {
         _navigateToDetail.value = null
     }
+
+    fun updateOrder(filter: OrderCondition) {
+        getOrderResult(filter)
+    }
+
+    private fun getOrderResult(filter: OrderCondition) {
+//        _dramas.value?.let { dramaList ->
+//            when (filter) {
+//                OrderCondition.RATING -> _dramas.value = dramaList.sortedBy { it.rating }
+//                OrderCondition.CREATED_TIME -> _dramas.value = dramaList.sortedBy { it.dramaId }
+//                OrderCondition.TOTAL_VIEW -> _dramas.value = dramaList.sortedBy { it.totalViews }
+//            }
+//        }
+    }
+
 }

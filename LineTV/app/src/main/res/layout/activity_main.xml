@@ -17,6 +17,8 @@
             android:layout_height="48dp"
             android:background="@color/colorPrimaryDark"
             android:elevation="4dp"
+            android:foregroundTint="#fff"
+            android:theme="@style/AppTheme"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
