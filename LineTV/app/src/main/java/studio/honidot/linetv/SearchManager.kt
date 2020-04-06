@@ -2,7 +2,7 @@ package studio.honidot.linetv
 
 import android.content.Context
 
-object UserManager {
+object SearchManager {
 
     private const val USER_DATA = "user_data"
     private const val USER_SEARCH = "user_search"

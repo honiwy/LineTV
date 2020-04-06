@@ -11,7 +11,6 @@ import com.bumptech.glide.request.RequestOptions
 import studio.honidot.linetv.data.Drama
 import studio.honidot.linetv.drama.DramaAdapter
 import studio.honidot.linetv.network.LoadApiStatus
-import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
@@ -20,20 +19,21 @@ fun bindRecyclerViewWithDramas(recyclerView: RecyclerView, dramas: List<Drama>?)
     dramas?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is DramaAdapter -> if (UserManager.userSearch.isNullOrEmpty()) {
-                    submitList(it)
-                }else{
-                    val resultList = mutableListOf<Drama>()
-                    for (drama in it) {
-                        if (drama.name.contains(UserManager.userSearch.toString())) {
-                            resultList.add(drama)
+                is DramaAdapter ->
+                    if (SearchManager.userSearch.isNullOrEmpty()) {
+                        submitList(it)
+                    } else {
+                        val resultList = mutableListOf<Drama>()
+                        for (drama in it) {
+                            if (drama.name.contains(SearchManager.userSearch.toString())) {
+                                resultList.add(drama)
+                            }
                         }
+                        submitList(resultList)
                     }
-                    submitList(resultList)
-                }
-                }
             }
         }
+    }
 }
 
 @BindingAdapter("certainDecimalPlace")

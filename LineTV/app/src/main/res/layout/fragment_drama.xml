@@ -38,7 +38,7 @@
                 android:id="@+id/recycler_home"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:dramas="@{viewModel.dramas}"
+                app:dramas="@{viewModel.dramasSorted}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
             </androidx.recyclerview.widget.RecyclerView>

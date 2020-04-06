@@ -2,6 +2,7 @@ package studio.honidot.linetv.drama
 
 import android.widget.Toast
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -22,11 +23,17 @@ class DramaViewModel(private val lineTVRepository: LineTVRepository) : ViewModel
 
     val dramas: LiveData<List<Drama>> = lineTVRepository.getDramasInLocal()
 
-//    private val _dramas = lineTVRepository.getDramasInLocal()
-//
-//
-//    val dramas: LiveData<List<Drama>>
-//        get() = _dramas
+    val isDramasPrepared = MediatorLiveData<Boolean>().apply {
+        addSource(dramas) {
+            value = !dramas.value.isNullOrEmpty()
+            if (value == true) {
+                _dramasSorted.value = dramas.value
+            }
+        }
+    }
+    private val _dramasSorted = MutableLiveData<List<Drama>>()
+    val dramasSorted: LiveData<List<Drama>>
+        get() = _dramasSorted
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -136,18 +143,13 @@ class DramaViewModel(private val lineTVRepository: LineTVRepository) : ViewModel
         _navigateToDetail.value = null
     }
 
-    fun updateOrder(filter: OrderCondition) {
-        getOrderResult(filter)
+    fun updateOrder(sort: SortCondition) {
+        dramas.value?.let { dramaList ->
+            when (sort) {
+                SortCondition.RATING -> _dramasSorted.value = dramaList.sortedByDescending { it.rating }
+                SortCondition.TOTAL_VIEW -> _dramasSorted.value = dramaList.sortedByDescending { it.totalViews }
+                else -> _dramasSorted.value = dramaList.sortedBy { it.dramaId }
+            }
+        }
     }
-
-    private fun getOrderResult(filter: OrderCondition) {
-//        _dramas.value?.let { dramaList ->
-//            when (filter) {
-//                OrderCondition.RATING -> _dramas.value = dramaList.sortedBy { it.rating }
-//                OrderCondition.CREATED_TIME -> _dramas.value = dramaList.sortedBy { it.dramaId }
-//                OrderCondition.TOTAL_VIEW -> _dramas.value = dramaList.sortedBy { it.totalViews }
-//            }
-//        }
-    }
-
 }

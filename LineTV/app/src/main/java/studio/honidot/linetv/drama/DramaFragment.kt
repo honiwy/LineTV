@@ -9,11 +9,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import studio.honidot.linetv.NavigationDirections
 import studio.honidot.linetv.R
-import studio.honidot.linetv.UserManager
+import studio.honidot.linetv.SearchManager
 import studio.honidot.linetv.bindApiErrorMessage
 import studio.honidot.linetv.data.Drama
 import studio.honidot.linetv.databinding.FragmentDramaBinding
 import studio.honidot.linetv.extension.getVmFactory
+import studio.honidot.linetv.utility.Logger
 import studio.honidot.linetv.utility.Util
 
 
@@ -43,7 +44,7 @@ class DramaFragment : Fragment() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 val resultList = mutableListOf<Drama>()
-                viewModel.dramas.value?.let {
+                viewModel.dramasSorted.value?.let {
                     if (newText.isNullOrEmpty()) {
                         dramaAdapter.submitList(it)
                     } else {
@@ -55,15 +56,16 @@ class DramaFragment : Fragment() {
                         dramaAdapter.submitList(resultList)
                     }
                 }
+                SearchManager.userSearch = newText
                 return false
             }
 
-            override fun onQueryTextSubmit(query: String?): Boolean { // Do your task here
-                UserManager.userSearch = query
+            override fun onQueryTextSubmit(query: String?): Boolean { 
+
                 return false
             }
         })
-        binding.searchView.setQuery(UserManager.userSearch, false)
+        binding.searchView.setQuery(SearchManager.userSearch, false)
 
         binding.layoutSwipeRefreshHome.setOnRefreshListener {
             viewModel.refresh()
@@ -76,6 +78,9 @@ class DramaFragment : Fragment() {
                 )
             }
 
+        })
+
+        viewModel.isDramasPrepared.observe(viewLifecycleOwner, Observer {
         })
 
         viewModel.refreshStatus.observe(this, Observer {
@@ -113,10 +118,9 @@ class DramaFragment : Fragment() {
 
         viewModel.updateOrder(
             when (item.itemId) {
-                R.id.rating_menu -> OrderCondition.RATING
-                R.id.created_at_menu -> OrderCondition.CREATED_TIME
-                R.id.total_view_menu -> OrderCondition.TOTAL_VIEW
-                else -> OrderCondition.TOTAL_VIEW
+                R.id.rating_menu -> SortCondition.RATING
+                R.id.total_view_menu -> SortCondition.TOTAL_VIEW
+                else -> SortCondition.DEFAULT
             }
         )
         return true
