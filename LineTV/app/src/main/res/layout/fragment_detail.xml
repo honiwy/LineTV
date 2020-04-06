@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textSize="18sp"
-            android:text="@{String.valueOf(viewModel.drama.rating)}"
+            certainDecimalPlace="@{viewModel.drama.rating}"
             app:layout_constraintBaseline_toBaselineOf="@+id/text_rating_title"
             app:layout_constraintStart_toEndOf="@+id/text_rating_title"
             tools:text="@string/mock_rating" />
@@ -147,10 +147,11 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
             android:visibility="@{viewModel.drama.totalViews>10000000?View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/text_drama_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_drama_name"
-            app:srcCompat="@drawable/top" />
+            app:srcCompat="@drawable/crown" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -83,13 +83,11 @@ class DramaViewModel(private val lineTVRepository: LineTVRepository) : ViewModel
         coroutineScope.launch {
 
             if (!Util.isInternetConnected()) {
-                val toast = Toast.makeText(
+                Toast.makeText(
                     LineTVApplication.INSTANCE.applicationContext,
                     getString(R.string.internet_not_connected),
                     Toast.LENGTH_SHORT
-                )
-                toast.setGravity(Gravity.TOP, 0, 0)
-                toast.show()
+                ).show()
                 if (isInitial) _status.value = LoadApiStatus.ERROR
                 if (dramas.value.isNullOrEmpty()) {
                     _error.value = getString(R.string.internet_refresh)
