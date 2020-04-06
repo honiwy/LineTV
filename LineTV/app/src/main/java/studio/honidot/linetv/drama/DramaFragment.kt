@@ -60,7 +60,7 @@ class DramaFragment : Fragment() {
                 return false
             }
 
-            override fun onQueryTextSubmit(query: String?): Boolean { 
+            override fun onQueryTextSubmit(query: String?): Boolean {
 
                 return false
             }
