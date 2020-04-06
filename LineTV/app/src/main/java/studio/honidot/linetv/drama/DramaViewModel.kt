@@ -1,5 +1,7 @@
 package studio.honidot.linetv.drama
 
+import android.view.Gravity
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,22 +9,24 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import studio.honidot.linetv.LineTVApplication
 import studio.honidot.linetv.R
-import studio.honidot.linetv.data.Result
 import studio.honidot.linetv.data.Drama
+import studio.honidot.linetv.data.Result
 import studio.honidot.linetv.data.source.LineTVRepository
 import studio.honidot.linetv.network.LoadApiStatus
 import studio.honidot.linetv.utility.Logger
+import studio.honidot.linetv.utility.Util
 import studio.honidot.linetv.utility.Util.getString
 
 class DramaViewModel(private val lineTVRepository: LineTVRepository) : ViewModel() {
 
-   // val dramas: LiveData<List<Drama>> = lineTVRepository.getDramasInLocal()
+    val dramas: LiveData<List<Drama>> = lineTVRepository.getDramasInLocal()
 
-    private val _dramas = MutableLiveData<List<Drama>>()
-
-    val dramas: LiveData<List<Drama>>
-        get() = _dramas
+//    private val _dramas = MutableLiveData<List<Drama>>()
+//
+//    val dramas: LiveData<List<Drama>>
+//        get() = _dramas
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -78,39 +82,47 @@ class DramaViewModel(private val lineTVRepository: LineTVRepository) : ViewModel
 
         coroutineScope.launch {
 
-            if (isInitial) _status.value = LoadApiStatus.LOADING
-            // It will return Result object after Deferred flow
-            val result = lineTVRepository.getDramas()
+            if (!Util.isInternetConnected()) {
+                val toast = Toast.makeText(
+                    LineTVApplication.INSTANCE.applicationContext,
+                    getString(R.string.internet_not_connected),
+                    Toast.LENGTH_SHORT
+                )
+                toast.setGravity(Gravity.TOP, 0, 0)
+                toast.show()
+                if (isInitial) _status.value = LoadApiStatus.ERROR
+                if (dramas.value.isNullOrEmpty()) {
+                    _error.value = getString(R.string.internet_refresh)
+                }
+            } else {
 
-//            if(result is Result.Success){
-//                    result.data.dramaList?.forEach {
-//                        lineTVRepository.insertDrama(it)
-//                    }
-//            }
+                if (isInitial) _status.value = LoadApiStatus.LOADING
+                // It will return Result object after Deferred flow
 
-            _dramas.value = when (result) {
-                is Result.Success -> {
-                    _error.value = null
-                    if (isInitial) _status.value = LoadApiStatus.DONE
-                    result.data.dramaList
-                }
-                is Result.Fail -> {
-                    _error.value = result.error
-                    if (isInitial) _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    if (isInitial) _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                else -> {
-                    _error.value = getString(R.string.you_know_nothing)
-                    if (isInitial) _status.value = LoadApiStatus.ERROR
-                    null
+                when (val result = lineTVRepository.getDramas()) {
+                    is Result.Success -> {
+                        _error.value = null
+                        if (isInitial) _status.value = LoadApiStatus.DONE
+                        result.data.dramaList?.forEach {
+                            lineTVRepository.insertDrama(it)
+                        }
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        if (isInitial) _status.value = LoadApiStatus.ERROR
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        if (isInitial) _status.value = LoadApiStatus.ERROR
+                    }
+                    else -> {
+                        _error.value = getString(R.string.you_know_nothing)
+                        if (isInitial) _status.value = LoadApiStatus.ERROR
+                    }
                 }
             }
             _refreshStatus.value = false
+
         }
     }
 

@@ -16,9 +16,6 @@ object LineTVRemoteDataSource : LineTVDataSource {
 
     override suspend fun getDramas(): Result<DramaResult> {
 
-        if (!isInternetConnected()) {
-            return Result.Fail(getString(R.string.internet_not_connected))
-        }
         // Get the Deferred object for our Retrofit request
         val getResultDeferred = LineTVApi.RETROFIT_SERVICE.getDramas()
         return try {
